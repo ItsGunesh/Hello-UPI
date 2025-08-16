@@ -5,13 +5,15 @@ import Balance from '../components/Balance/Balance.jsx'
 import ChatBox from '../components/ChatBox/ChatBox.jsx'
 import Agent from '../components/AIAgent/Agent.jsx'
 import Footer from '../components/Footer/Footer.jsx'
+import TransactionCard from '../components/Tranactions/TransactionCard.jsx'
+import TransactionIndex from '../components/Tranactions/TransactionIndex.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <div className='flex flex-col'>
+      {/* <div className='flex flex-col'>
         <Navigator/>
         <Balance/>
         <QuickAction/>
@@ -22,6 +24,9 @@ function App() {
       </div>
       <div>
         <Footer/>
+      </div> */}
+      <div>
+        <TransactionIndex/>
       </div>
     </>
   )
