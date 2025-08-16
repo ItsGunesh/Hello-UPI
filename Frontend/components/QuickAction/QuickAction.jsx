@@ -5,20 +5,20 @@ const QuickAction = () => {
     <>
       <div className='m-5 rounded-xl bg-amber-100 p-5 flex flex-col'>
         <div>
-            <p>Quick Action</p>
+            <p className='font-bold'>Quick Action</p>
         </div>
         <div className='p-4 flex gap-3 '>
             <div className='border-1 bg-amber-400 rounded-xl w-[25%] text-center py-5'>
-                <p>Send Money</p>
+                <p className='font-bold'>Send Money</p>
             </div>
             <div className='border-1 bg-amber-400 rounded-xl w-[25%] text-center py-5'>
-                <p>Transaction</p>
+                <p className='font-bold'>Transactions</p>
             </div>
             <div className='border-1 bg-amber-400 rounded-xl w-[25%] text-center py-5'>
-                <p>Analytics</p>
+                <p className='font-bold'>Analytics</p>
             </div>
             <div className='border-1 bg-amber-400 rounded-xl w-[25%] text-center py-5'>
-                <p>Contact</p>
+                <p className='font-bold'>Contact</p>
             </div>
         </div>
       </div>
