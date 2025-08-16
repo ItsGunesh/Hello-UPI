@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Navigator from '../components/Navigator/Navigator.jsx'
-import QuickAction from '../components/Quick Action/QuickAction.jsx'
+import QuickAction from '../components/QuickAction/QuickAction.jsx'
+import Balance from '../components/Balance/Balance.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,6 +10,7 @@ function App() {
     <>
       <Navigator/>
       <QuickAction/>
+      <Balance/>
     </>
   )
 }
