@@ -10,11 +10,18 @@ dotenv.config({
 const app = express()
 
 app.use(cors({
-    origin:process.env.CORS_ORIGIN, // get it from .env variables
-    credentials:true
-}))
+  origin: "http://localhost:5173", // your frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 // app.use(cors())
+
+// const key_id = process.env.RAZORPAY_KEY_ID
+// const key_secret = process.env.RAZORPAY_KEY_SECRET
+
+// console.log(key_id)
+// console.log(key_secret)
 
 
 app.use(express.json());
@@ -22,6 +29,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
+
+
+import dataRouter from "./routes/data.route.js"
+
+app.use("/api/data",dataRouter)
 
 
 
