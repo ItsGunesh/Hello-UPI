@@ -58,7 +58,7 @@ const getTransactions = asyncHandler(async (req, res) => {
             }
         });
         
-        console.log('Razorpay API Response:', response.data);
+        // console.log('Razorpay API Response:', response.data);
 
         const data = response.data;
         
@@ -80,7 +80,7 @@ const fetchName = asyncHandler(async (req, res) => {
     const key_secret = process.env.RAZORPAY_KEY_SECRET
     const accountId = req.params.id
 
-    console.log(accountId)
+    // console.log(accountId)
 
     if (!key_id || !key_secret) {
         throw new ApiError(500, "Razorpay credentials not configured")
@@ -90,7 +90,7 @@ const fetchName = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Account ID is required")
     }
 
-    console.log('Fetching name for account ID:', accountId)
+    // console.log('Fetching name for account ID:', accountId)
 
     try {
         const response = await axios.get(

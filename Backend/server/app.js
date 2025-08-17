@@ -9,6 +9,11 @@ dotenv.config({
 
 const app = express()
 
+// Middleware order is important - parse body before routes
+app.use(express.json());
+app.use(express.urlencoded({extended: true, limit: "16kb"}))
+app.use(cookieParser())
+
 app.use(cors({
   origin: "http://localhost:5173", // your frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -32,8 +37,10 @@ app.use(cookieParser())
 
 
 import dataRouter from "./routes/data.route.js"
+import paymentRouter from "./routes/payment.route.js"
 
 app.use("/api/data",dataRouter)
+app.use("/api/payment",paymentRouter)
 
 
 
