@@ -28,7 +28,7 @@ const TransactionCard = ({ accountID, fundAccountID, amount, createdAt, status, 
     }
 
     return (
-        <div className='m-2 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-row justify-between p-4'>
+        <div className='m-5 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-row justify-between px-4 py-2'>
             <div className='flex items-center gap-4'>
                 <div className={`rounded-full border-2 p-3 ${getIconColor()}`}>
                     <FontAwesomeIcon 
@@ -37,7 +37,7 @@ const TransactionCard = ({ accountID, fundAccountID, amount, createdAt, status, 
                     />
                 </div>
                 <div className='flex flex-col'>
-                    <span className='text-lg font-semibold text-gray-800'>
+                    <span className='text-xl font-bold text-gray-800 '>
                          {accountID}
                     </span>
                     <span className='text-sm text-gray-600'>

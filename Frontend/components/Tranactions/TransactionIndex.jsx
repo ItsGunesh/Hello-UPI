@@ -33,7 +33,7 @@ const TransactionIndex = () => {
                     ...prev,
                     [accountID]: name
                 }))
-                
+
                 return name
             }
         } catch (error) {
@@ -55,12 +55,12 @@ const TransactionIndex = () => {
 
             const namePromises = uniqueAccountIds.map(accountId => fetchName(accountId))
             await Promise.all(namePromises)
-            
+
             setNamesLoaded(true)
 
-            
+
         } catch (error) {
-            console.log("Error fetching names->" , error)
+            console.log("Error fetching names->", error)
         }
     }
 
@@ -69,7 +69,7 @@ const TransactionIndex = () => {
             setLoading(true)
             setError(null)
 
-            
+
             const response = await axios.get(`${apiUrl}/api/data/gettransactions`, {
                 withCredentials: true
             })
@@ -136,7 +136,7 @@ const TransactionIndex = () => {
 
     const getStatusColor = (status) => {
         if (!status) return 'text-gray-600'
-        
+
         switch (status.toLowerCase()) {
             case 'completed':
             case 'success':
@@ -154,66 +154,67 @@ const TransactionIndex = () => {
 
     return (
         <>
-            <div>
-                <Navigator/>
-            </div>
-            <div>
-                <QuickActions/>
-            </div>
-            <div className='m-5 p-5 text-bold bg-amber-100 rounded-2xl'>
-                <p className='text-3xl font-bold px-5 mb-6'>Transactions History</p>
-                
-                {loading && (
-                    <div className="text-center py-8">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                        <p className="mt-2 text-gray-600">Loading transactions...</p>
-                    </div>
-                )}
+            <div className='bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-500 '>
+                <div>
+                    <Navigator />
+                </div>
+                <div className='mx-[10%]'>
+                    <QuickActions />
+                </div>
+                <div className='m-5 p-5 text-bold bg-slate-800 text-slate-100 rounded-2xl mx-[10%]'>
+                    <p className='text-3xl font-bold px-5 mb-6'>Transactions History</p>
 
-                {error && (
-                    <div className="text-center py-8">
-                        <p className="text-red-600">{error}</p>
-                        <button 
-                            onClick={fetchTransactions}
-                            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        >
-                            Retry
-                        </button>
-                    </div>
-                )}
+                    {loading && (
+                        <div className="text-center py-8">
+                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                            <p className="mt-2 text-gray-600">Loading transactions...</p>
+                        </div>
+                    )}
 
-                {!loading && !error && transactions.length === 0 && (
-                    <div className="text-center py-8">
-                        <p className="text-gray-600">No transactions found</p>
-                        <button 
-                            onClick={fetchTransactions}
-                            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                        >
-                            Refresh
-                        </button>
-                    </div>
-                )}
+                    {error && (
+                        <div className="text-center py-8">
+                            <p className="text-red-600">{error}</p>
+                            <button
+                                onClick={fetchTransactions}
+                                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                            >
+                                Retry
+                            </button>
+                        </div>
+                    )}
 
-                {!loading && !error && transactions.length > 0 && (
-                    <div className="space-y-4">
-                        <p className="text-sm text-gray-600 mb-2">
-                            Found {transactions.length} transaction(s)
-                            {!namesLoaded && <span className="ml-2 text-blue-600">Loading account names...</span>}
-                        </p>
-                        {transactions.map((transaction, index) => (
-                            <TransactionCard 
-                                key={transaction.id || transaction.transaction_id || index}
-                                accountID={accountNames[transaction.source?.fund_account_id] || 'Loading...'}
-                                fundAccountID={transaction.source?.fund_account_id || 'N/A'}
-                                amount={formatAmount(transaction.amount)}
-                                createdAt={formatDate(transaction.created_at || transaction.createdAt)}
-                                status={transaction.source?.status || 'Unknown'}
-                                statusColor={getStatusColor(transaction.source?.status)}
-                                transaction={transaction}
-                            />
-                        ))}
-                    </div>
-                )}
+                    {!loading && !error && transactions.length === 0 && (
+                        <div className="text-center py-8">
+                            <p className="text-gray-600">No transactions found</p>
+                            <button
+                                onClick={fetchTransactions}
+                                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                            >
+                                Refresh
+                            </button>
+                        </div>
+                    )}
+
+                    {!loading && !error && transactions.length > 0 && (
+                        <div className="space-y-4">
+                            <p className="text-sm text-gray-600 mb-2">
+                                {!namesLoaded && <span className="ml-2 text-blue-600">Loading account names...</span>}
+                            </p>
+                            {transactions.map((transaction, index) => (
+                                <TransactionCard
+                                    key={transaction.id || transaction.transaction_id || index}
+                                    accountID={accountNames[transaction.source?.fund_account_id] || 'Loading...'}
+                                    fundAccountID={transaction.source?.fund_account_id || 'N/A'}
+                                    amount={formatAmount(transaction.amount)}
+                                    createdAt={formatDate(transaction.created_at || transaction.createdAt)}
+                                    status={transaction.source?.status || 'Unknown'}
+                                    statusColor={getStatusColor(transaction.source?.status)}
+                                    transaction={transaction}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     )
