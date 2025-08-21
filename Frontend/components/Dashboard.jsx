@@ -27,6 +27,7 @@ const Dashboard = () => {
 
         <main className="flex-grow">
           <div className="mx-[10%] grid grid-cols-[2fr_1fr]">
+            <VoiceHandler onCommand={handleCommand} />
             <div>
               <Balance />
             </div>
@@ -48,7 +49,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {listening && <VoiceHandler onCommand={handleCommand} />}
         </main>
 
         <footer className="mt-auto">

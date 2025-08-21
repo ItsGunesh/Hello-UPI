@@ -6,6 +6,7 @@ import TransactionIndex from "../components/Tranactions/TransactionIndex.jsx";
 // Import new components
 import ChatBox from "../components/ChatBox/ChatBox.jsx";
 import VoiceHandler from "../components/VoiceHandler.jsx";
+import ContactsIndex from "../components/Contacts/ContactsIndex.jsx";
 
 function App() {
 
@@ -15,7 +16,8 @@ function App() {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/" element={<Dashboard />} />
-            <Route path="transactions" element={<TransactionIndex/>}/>
+            <Route path="/transactions" element={<TransactionIndex/>}/>
+            <Route path="/contacts" element={<ContactsIndex/>}/>
           </Routes>
         </BrowserRouter>
     </>

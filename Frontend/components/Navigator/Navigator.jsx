@@ -19,9 +19,6 @@ const Navigator = () => {
         </div>
         <div className='flex items-center gap-20'>
           <ul className='flex gap-5 font-bold text-white'>
-            {/* <li>Progress</li>
-            <li>Gym</li>
-            <li>Diet</li> */}
             <li>TEST ACCOUNT</li>
           </ul>
         </div>

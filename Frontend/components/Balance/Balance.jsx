@@ -46,8 +46,8 @@ const Balance = () => {
         </div>
         <div>
           {visible
-            ? <span className='text-4xl font-bold'>{balance ?? "Loading..."}</span>
-            : <span className='text-4xl font-bold'>$ ******</span>}
+            ? <span className='text-4xl font-bold'>{`₹ ${balance}` ?? "Loading..."}</span>
+            : <span className='text-4xl font-bold'>₹ ******</span>}
         </div>
         <div>
           <p>UPI ID : girish@ybl</p>

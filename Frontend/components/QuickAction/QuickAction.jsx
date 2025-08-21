@@ -15,6 +15,10 @@ const QuickAction = () => {
     navigate("/transactions")
   }
 
+  const cont=()=>{
+    navigate("/contacts")
+  }
+
   const home = ()=>{
     navigate("/")
   }
@@ -38,7 +42,7 @@ const QuickAction = () => {
                 <FontAwesomeIcon icon={faChartSimple} className='text-2xl py-1'/>
                 <p className='font-bold'>Analytics</p>
             </div>
-            <div className='border-1 bg-slate-800 text-slate-100 rounded-xl w-[25%] text-center py-5'>
+            <div className='border-1 bg-slate-800 text-slate-100 rounded-xl w-[25%] text-center py-5' onClick={cont}>
                 <FontAwesomeIcon icon={faAddressCard} className='text-2xl py-1'/>
                 <p className='font-bold'>Contacts</p>
             </div>
