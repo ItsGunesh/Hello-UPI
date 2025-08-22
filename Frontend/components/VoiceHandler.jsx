@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import PinModal from "./PinModal";
 
 const VoiceHandler = ({ onCommand }) => {
 
-  // const [person, setPerson] = useState("")
-  // const [amount, setamount] = useState("")
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [pendingPayment, setPendingPayment] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [pinAttempts, setPinAttempts] = useState(0);
+  const [shouldClearPin, setShouldClearPin] = useState(false);
+  const [pinstatus,setPinStatus] = useState('')
 
-  const processPayment = async (amount,person) => {
+  
+  const CORRECT_PIN = "2308";
+  const MAX_PIN_ATTEMPTS = 3; 
+
+
+  const processPayment = async (amount, person) => {
     const apiUrl = import.meta.env.VITE_BACKEND_URL
+    setIsProcessing(true);
 
     try {
-      // console.log('Sending payment request with:', { person, amount })
+      console.log(apiUrl)
       
       const requestData = {
         person: person,
@@ -26,13 +37,67 @@ const VoiceHandler = ({ onCommand }) => {
       })
 
       if (response.status === 200) {
-        console.log('Payment response:', response.data)
+        // console.log('Payment response:', response.data)
         onCommand(`Payment processed: ₹${amount} to ${person}`)
       }
     } catch (error) {
       console.log("Error processsing payment", error)
+      onCommand(`Payment failed: ${error.message}`)
+    } finally {
+      setIsProcessing(false);
     }
   }
+
+  const handlePinVerify = (pin) => {
+    if (pin === CORRECT_PIN) {
+      setShowPinModal(false);
+      setPinAttempts(0);
+      onCommand("PIN verified. Processing payment...");
+      setPinStatus("PIN verified.")
+      if (pendingPayment) {
+        processPayment(pendingPayment.amount, pendingPayment.person);
+        setPendingPayment(null);
+      }
+          } else {
+        const newAttempts = pinAttempts + 1;
+        setPinAttempts(newAttempts);
+        
+        if (newAttempts >= MAX_PIN_ATTEMPTS) {
+          setShowPinModal(false);
+          setPinAttempts(0);
+          setPendingPayment(null);
+          onCommand("Too many failed PIN attempts. Payment cancelled.");
+        } else {
+          // onCommand(`Incorrect PIN. ${MAX_PIN_ATTEMPTS - newAttempts} attempts remaining.`);
+          setPinStatus("Incorrect PIN")
+          setShouldClearPin(true);
+          setTimeout(() => setShouldClearPin(false), 100);
+        }
+      }
+  };
+
+  const handlePinClose = () => {
+    setShowPinModal(false);
+    setPendingPayment(null);
+    setPinAttempts(0);
+    onCommand("Payment cancelled.");
+  };
+
+  const initiatePayment = (amount, person) => {
+    if (!amount || !person) {
+      onCommand("Invalid transaction details. Please try again.");
+      return;
+    }
+    if (showPinModal || isProcessing) {
+      onCommand("Please complete the current transaction first.");
+      return;
+    }
+    
+    setPendingPayment({ amount, person });
+    setPinAttempts(0);
+    setShowPinModal(true);
+    onCommand(`Please enter PIN to send ₹${amount} to ${person}`);
+  };
 
   useEffect(() => {
     const SpeechRecognition =
@@ -58,17 +123,17 @@ const VoiceHandler = ({ onCommand }) => {
         onCommand("UPI activated.");
       } else if (transcript.startsWith("send")) {
         onCommand(`Transaction command detected: "${transcript}"`);
-        const words = transcript.toLowerCase().split(' '); // Convert to lowercase for consistency
+        const words = transcript.toLowerCase().split(' ');
         const amountIndex = words.findIndex(word => word === 'send') + 1;
         const toIndex = words.findIndex(word => word === 'to') + 1;
 
         const extractedAmount = words[amountIndex];
         const extractedPerson = words[toIndex];
 
-        // console.log(amount)
-        // console.log(person)
+        // console.log(extractedAmount)
+        // console.log(extractedPerson)
 
-        processPayment(extractedAmount,extractedPerson)
+        initiatePayment(extractedAmount,extractedPerson)
 
         
       } else {
@@ -85,7 +150,18 @@ const VoiceHandler = ({ onCommand }) => {
     return () => recognition.stop();
   }, [onCommand]);
 
-  return null;
+  return (
+    <>
+      <PinModal
+        visible={showPinModal}
+        onVerify={handlePinVerify}
+        onClose={handlePinClose}
+        isProcessing={isProcessing}
+        shouldClearPin={shouldClearPin}
+        pinstatus={pinstatus}
+      />
+    </>
+  );
 };
 
 export default VoiceHandler;

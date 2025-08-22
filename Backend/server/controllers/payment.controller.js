@@ -8,6 +8,8 @@ const checkContactExists = async (person) => {
 
     const key_id = process.env.RAZORPAY_KEY_ID
     const key_secret = process.env.RAZORPAY_KEY_SECRET
+
+    // console.log("I am the first in controller")
     
     try {
         const response = await axios.get('https://api.razorpay.com/v1/fund_accounts', {

@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 
-const PinModal = ({ visible, onVerify, onClose }) => {
+const PinModal = ({ visible, onVerify, onClose, isProcessing = false, shouldClearPin = false , pinstatus }) => {
   const [pin, setPin] = useState('');
+
+  React.useEffect(() => {
+    if (shouldClearPin) {
+      setPin('');
+    }
+  }, [shouldClearPin]);
 
   const handleDigit = (digit) => {
     if (pin.length < 4) setPin(pin + digit);
@@ -17,7 +23,7 @@ const PinModal = ({ visible, onVerify, onClose }) => {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-opacity-80">
       <div className="bg-white rounded-lg shadow-lg p-6 w-72 flex flex-col items-center">
         <h2 className="text-lg font-bold mb-2">Enter PIN</h2>
         <input
@@ -31,17 +37,43 @@ const PinModal = ({ visible, onVerify, onClose }) => {
           {[1,2,3,4,5,6,7,8,9].map(n => (
             <button
               key={n}
-              className="bg-gray-200 rounded p-2 text-lg"
+              className={`rounded p-2 text-lg ${isProcessing ? 'bg-gray-100 cursor-not-allowed opacity-50' : 'bg-gray-200 hover:bg-gray-300'}`}
               onClick={() => handleDigit(n.toString())}
+              disabled={isProcessing}
             >
               {n}
             </button>
           ))}
-          <button className="bg-gray-200 rounded p-2 text-lg" onClick={handleClear}>C</button>
-          <button className="bg-gray-200 rounded p-2 text-lg" onClick={() => handleDigit('0')}>0</button>
-          <button className="bg-blue-500 text-white rounded p-2 text-lg" onClick={handleSubmit}>OK</button>
+          <button 
+            className={`rounded p-2 text-lg ${isProcessing ? 'bg-gray-100 cursor-not-allowed opacity-50' : 'bg-gray-200 hover:bg-gray-300'}`} 
+            onClick={handleClear}
+            disabled={isProcessing}
+          >
+            C
+          </button>
+          <button 
+            className={`rounded p-2 text-lg ${isProcessing ? 'bg-gray-100 cursor-not-allowed opacity-50' : 'bg-gray-200 hover:bg-gray-300'}`} 
+            onClick={() => handleDigit('0')}
+            disabled={isProcessing}
+          >
+            0
+          </button>
+          <button 
+          className={`rounded p-2 text-lg ${isProcessing ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`} 
+          onClick={handleSubmit}
+          disabled={isProcessing}
+        >
+          {isProcessing ? 'Processing...' : 'OK'}
+        </button>
         </div>
-        <button className="text-xs text-gray-500 mt-2" onClick={onClose}>Cancel</button>
+        <button 
+          className={`text-xs text-gray-500 mt-2 ${isProcessing ? 'cursor-not-allowed opacity-50' : 'hover:text-gray-700'}`} 
+          onClick={onClose}
+          disabled={isProcessing}
+        >
+          Cancel
+        </button>
+        <p className="text-red-600">{pinstatus}</p>
       </div>
     </div>
   );

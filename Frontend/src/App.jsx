@@ -7,6 +7,7 @@ import TransactionIndex from "../components/Tranactions/TransactionIndex.jsx";
 import ChatBox from "../components/ChatBox/ChatBox.jsx";
 import VoiceHandler from "../components/VoiceHandler.jsx";
 import ContactsIndex from "../components/Contacts/ContactsIndex.jsx";
+import PinModal from "../components/PinModal.jsx";
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/transactions" element={<TransactionIndex/>}/>
             <Route path="/contacts" element={<ContactsIndex/>}/>
+            <Route path="/pin" element={<PinModal/>}/>
           </Routes>
         </BrowserRouter>
     </>
