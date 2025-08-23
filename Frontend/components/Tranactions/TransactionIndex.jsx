@@ -139,16 +139,16 @@ const TransactionIndex = () => {
 
         switch (status.toLowerCase()) {
             case 'completed':
-            case 'success':
-                return 'text-green-600'
+            case 'processed':
+                return 'text-green-800'
             case 'pending':
             case 'processing':
-                return 'text-yellow-600'
+                return 'text-yellow-800'
             case 'failed':
             case 'error':
                 return 'text-red-600'
             default:
-                return 'text-gray-600'
+                return 'text-gray-800'
         }
     }
 

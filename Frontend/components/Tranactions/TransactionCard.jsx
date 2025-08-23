@@ -16,12 +16,12 @@ const TransactionCard = ({ accountID, fundAccountID, amount, createdAt, status, 
 
     const getIconColor = () => {
         switch (status?.toLowerCase()) {
-            case 'completed':
-                return 'text-green-600 bg-green-100 border-green-300'
-            case 'pending':
-                return 'text-yellow-600 bg-yellow-100 border-yellow-300'
-            case 'failed':
-                return 'text-red-600 bg-red-100 border-red-300'
+            case 'processed':
+                return 'text-green-800 bg-green-100 border-green-800'
+            case 'processing':
+                return 'text-yellow-800 bg-yellow-100 border-yellow-800'
+            case 'reversed':
+                return 'text-red-800 bg-red-100 border-red-800'
             default:
                 return 'text-gray-600 bg-gray-100 border-gray-300'
         }
@@ -52,7 +52,7 @@ const TransactionCard = ({ accountID, fundAccountID, amount, createdAt, status, 
                 <span className='text-2xl font-bold text-gray-800 mb-1'>
                     {amount}
                 </span>
-                <span className={`text-sm font-medium ${statusColor} mb-1`}>
+                <span className={`text-md font-medium ${statusColor} mb-1`}>
                     {status}
                 </span>
                 <span className='text-xs text-gray-500'>

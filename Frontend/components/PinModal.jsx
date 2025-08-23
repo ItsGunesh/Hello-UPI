@@ -23,7 +23,7 @@ const PinModal = ({ visible, onVerify, onClose, isProcessing = false, shouldClea
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-opacity-80">
+    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-opacity-80 w-[64%] mt-[4%] mb-[5%]">
       <div className="bg-white rounded-lg shadow-lg p-6 w-72 flex flex-col items-center">
         <h2 className="text-lg font-bold mb-2">Enter PIN</h2>
         <input

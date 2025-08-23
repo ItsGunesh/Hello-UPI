@@ -17,9 +17,9 @@ const Navigator = () => {
           <p className='test-font text-3xl text-white' onClick={toHome}>Hello UPI</p>
           <p>{Date().toString}</p>
         </div>
-        <div className='flex items-center gap-20'>
+        <div className='flex items-center gap-20 bg-red-600 px-3 py-1 rounded-2xl'>
           <ul className='flex gap-5 font-bold text-white'>
-            <li>TEST ACCOUNT</li>
+            <a href="https://x.razorpay.com/" target='_blank'>TEST ACCOUNT</a>
           </ul>
         </div>
       </div>
