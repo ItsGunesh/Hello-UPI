@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from "react-router-dom"   // ✅ add this
 import Navigator from '../components/Navigator/Navigator.jsx'
 import QuickAction from '../components/QuickAction/QuickAction.jsx'
 import Balance from '../components/Balance/Balance.jsx'
@@ -43,6 +44,16 @@ const Dashboard = () => {
           <div className="mx-[10%] grid grid-cols-3">
             <div className="col-span-2">
               <QuickAction />
+
+              {/* ✅ Budget Analyzer Button */}
+              <div className="mt-6">
+                <Link
+                  to="/budget"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                >
+                  Open Budget Analyzer
+                </Link>
+              </div>
             </div>
             <div className="w-full h-full pr-10 pb-10">
               <Agent />
@@ -55,8 +66,6 @@ const Dashboard = () => {
           <Footer />
         </footer>
       </div>
-
-
     </>
   )
 }
