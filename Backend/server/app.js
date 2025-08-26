@@ -9,7 +9,6 @@ dotenv.config({
 
 const app = express()
 
-// Middleware order is important - parse body before routes
 app.use(express.json());
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(cookieParser())

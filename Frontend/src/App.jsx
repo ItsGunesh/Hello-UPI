@@ -8,6 +8,7 @@ import ChatBox from "../components/ChatBox/ChatBox.jsx";
 import VoiceHandler from "../components/VoiceHandler.jsx";
 import ContactsIndex from "../components/Contacts/ContactsIndex.jsx";
 import PinModal from "../components/PinModal.jsx";
+import QRScanner from "../components/QRCodeScanner.jsx";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/transactions" element={<TransactionIndex/>}/>
             <Route path="/contacts" element={<ContactsIndex/>}/>
             <Route path="/pin" element={<PinModal/>}/>
+            <Route path="/QR" element={<QRScanner/>}/>
           </Routes>
         </BrowserRouter>
     </>
