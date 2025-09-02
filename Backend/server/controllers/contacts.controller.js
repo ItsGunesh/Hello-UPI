@@ -1,6 +1,44 @@
 import axios from "axios"
 import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+
+// const createQR = async(req,res)=>{
+//     const key_id = process.env.RAZORPAY_KEY_ID
+//     const key_secret = process.env.RAZORPAY_KEY_SECRET
+
+//     const {name,email,contact} = req.body
+
+//     try {
+//         const response = await axios.post("https://api.razorpay.com/v1/contacts",
+//             {
+//                 name: name,
+//                 email: email,
+//                 contact: contact,
+//                 type: type,
+//                 reference_id: "Acme Contact ID 12345",
+//                 notes: {
+//                     notes_key_1: "Tea, Earl Grey, Hot",
+//                     notes_key_2: "Tea, Earl Grey… decaf.",
+//                 },
+//             },
+//             {
+//                 auth: {
+//                     username: key_id,
+//                     password: key_secret,
+//                 },
+//             }
+//         )
+
+//         if(response.status===200){
+//             res.status(200).json(
+//                 new ApiResponse(200,"Created Contact")
+//             )
+//         }
+//     } catch (error) {
+//         throw ApiError(400,"Could not create contact",error)
+//     }
+// }
 
 
 
@@ -68,7 +106,9 @@ const createContact = async (req, res) => {
 
         // console.log(response)
 
-        if (response.status === 200) {
+        if (response.status === 201) {
+
+            console.log(response.data)
 
             res.status(200).json(
                 new ApiResponse(200, response.data, "Created contact successfully")
@@ -76,9 +116,8 @@ const createContact = async (req, res) => {
         }
 
         res.status(200).json(
-            new ApiResponse(200,"Done","done")
+            new ApiResponse(200,response.data,"Check this out")
         )
-
 
 
 
@@ -90,4 +129,40 @@ const createContact = async (req, res) => {
 
 }
 
-export { fetchContacts, createContact }
+const fundAcc = asyncHandler(async (req, res) => {
+    const { contId, vpaID } = req.body
+
+    const key_id = process.env.RAZORPAY_KEY_ID
+    const key_secret = process.env.RAZORPAY_KEY_SECRET
+
+    try {
+        const response = await axios.post(
+      'https://api.razorpay.com/v1/fund_accounts',
+      {
+        contact_id: contId,
+        account_type: 'vpa',
+        vpa: {
+          address: vpaID,
+        },
+      },
+      {
+        auth: {
+          username: key_id,
+          password: key_secret,
+        },
+      }
+    );
+
+
+
+        if (response.status === 200) {
+            res.status(200).json(
+                new ApiResponse(200, "Created FundAcc successfully", response)
+            )
+        }
+    } catch (error) {
+        throw new ApiError(401, "Error creating fund Account", error)
+    }
+})
+
+export { fetchContacts, createContact, fundAcc }

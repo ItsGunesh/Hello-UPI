@@ -64,7 +64,6 @@ const processPayment = asyncHandler(async(req,res)=>{
     const fundAccountId = contactId;
     // console.log("amount :" ,amount)
 
-    // If contact exists, initiate payout
     try {
         const payoutResponse = await axios({
             method: 'POST',
