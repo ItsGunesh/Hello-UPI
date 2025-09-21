@@ -38,11 +38,13 @@ app.use(cookieParser())
 import dataRouter from "./routes/data.route.js"
 import paymentRouter from "./routes/payment.route.js"
 import contactRouter from "./routes/contact.route.js"
+import nlpRouter from "./routes/pyserver.route.js"
 
 
 app.use("/api/data",dataRouter)
 app.use("/api/payment",paymentRouter)
 app.use("/api/contact",contactRouter)
+app.use("/api/pyserver",nlpRouter)
 
 
 
