@@ -23,17 +23,24 @@ def process_transaction(input_sentence: str) -> str:
     prediction = model.predict([input_vector])[0]
 
     if prediction != 1:
-        return "Invalid transaction."
+        return "Invalid transaction command."
 
     amount_match = re.search(r'(rs|rupees|dollars)?\s*(\d+)', input_sentence, re.IGNORECASE)
     receiver_match = re.search(r'to\s+([a-zA-Z]+)', input_sentence)
 
     if not amount_match or not receiver_match:
-        return "Invalid transaction: Missing amount or receiver."
+        return "Invalid transaction command: Missing amount or receiver."
 
     amount_str = amount_match.group(2)
     receiver_str = receiver_match.group(1)
-    return f"Amount = {amount_str}\nReceiver = {receiver_str}\nTransaction processed."
+    
+    result = {
+        "Amount": amount_str,
+        "Receiver": receiver_str,
+        "Message": "Transaction processed."
+    }
+    
+    return result
 
 class InputData(BaseModel):
     sentence: str
@@ -41,4 +48,4 @@ class InputData(BaseModel):
 @app.post("/extract")
 def extract(data: InputData):
     result = process_transaction(data.sentence)
-    return {"result": result}
+    return result

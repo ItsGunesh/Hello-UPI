@@ -22,7 +22,7 @@ const VoiceHandler = ({ onCommand }) => {
     setIsProcessing(true);
 
     try {
-      console.log(apiUrl)
+      // console.log(apiUrl)
       
       const requestData = {
         person: person,
@@ -84,10 +84,10 @@ const VoiceHandler = ({ onCommand }) => {
   };
 
   const initiatePayment = (amount, person) => {
-    if (!amount || !person) {
-      onCommand("Invalid transaction details. Please try again.");
-      return;
-    }
+    // if (!amount || !person) {
+    //   onCommand("Invalid transaction details. Please try again.");
+    //   return;
+    // }
     if (showPinModal || isProcessing) {
       onCommand("Please complete the current transaction first.");
       return;
@@ -98,6 +98,29 @@ const VoiceHandler = ({ onCommand }) => {
     setShowPinModal(true);
     onCommand(`Please enter PIN to send ₹${amount} to ${person}`);
   };
+
+  const handletranscript = async(sentence)=>{
+
+    try {
+
+      const apiUrl = import.meta.env.VITE_BACKEND_URL
+
+      const response = await axios.post(`${apiUrl}/api/pyserver/extract`,{sentence}, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      })
+
+      if(response.status===200){
+        return response.data
+      }
+
+    } catch (error) {
+      console.log("Frontend handletranscript error :",error)
+    }
+      
+  }
 
   useEffect(() => {
     const SpeechRecognition =
@@ -112,7 +135,7 @@ const VoiceHandler = ({ onCommand }) => {
     recognition.continuous = true;
     recognition.lang = "en-IN";
 
-    recognition.onresult = (event) => {
+    recognition.onresult = async(event) => {
       const transcript = event.results[event.results.length - 1][0].transcript
         .trim()
         .toLowerCase();
@@ -121,23 +144,34 @@ const VoiceHandler = ({ onCommand }) => {
 
       if (transcript.includes("hello upi")) {
         onCommand("UPI activated.");
-      } else if (transcript.startsWith("send")) {
+      } else{
         onCommand(`Transaction command detected: "${transcript}"`);
+
+        const extractedtranscript = await handletranscript(transcript)
+
+        // console.log(extractedtranscript.data) .
+        
+        // console.log(typeof(extractedtranscript.data))
+
         const words = transcript.toLowerCase().split(' ');
         const amountIndex = words.findIndex(word => word === 'send') + 1;
         const toIndex = words.findIndex(word => word === 'to') + 1;
 
-        const extractedAmount = words[amountIndex];
-        const extractedPerson = words[toIndex];
+        const extractedAmount = extractedtranscript.data.Amount;
+        const extractedPerson = extractedtranscript.data.Receiver;
 
         // console.log(extractedAmount)
         // console.log(extractedPerson)
 
-        initiatePayment(extractedAmount,extractedPerson)
+        if(!extractedAmount || !extractedPerson){
+          onCommand(extractedtranscript.data)
+        }
+        else{
+          initiatePayment(extractedAmount,extractedPerson)
+        }
+
 
         
-      } else {
-        onCommand(`"${transcript}"`);
       }
     };
 
