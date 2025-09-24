@@ -81,13 +81,15 @@ const createContact = async (req, res) => {
         // console.log(fullName, email, contact, type)
         // console.log(type)
 
+        const finalEmail = email ? `${email}@gmail.com` : ''
+
         const key_id = process.env.RAZORPAY_KEY_ID
         const key_secret = process.env.RAZORPAY_KEY_SECRET
 
         const response = await axios.post("https://api.razorpay.com/v1/contacts",
             {
                 name: fullName,
-                email: email,
+                email: finalEmail,
                 contact: contact,
                 type: type,
                 reference_id: "Acme Contact ID 12345",

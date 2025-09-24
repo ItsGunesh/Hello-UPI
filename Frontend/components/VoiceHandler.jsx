@@ -148,7 +148,7 @@ const VoiceHandler = ({ onCommand }) => {
       } else {
         onCommand(`Transaction command detected: "${transcript}"`);
 
-        const prompt = `Convert this to english and return the sentence - ${transcript}`
+        const prompt = `Translate the following sentence into English. If you encounter any words like 'two hundred', 'five hundred', etc., replace them with their numeric values (e.g., 'two hundred' becomes 200, 'five hundred' becomes 500). Return only the translated sentence with no quotes. Sentence is this - ${transcript}`
 
         const geminiApi = import.meta.env.VITE_GEMINI_API_KEY
 
@@ -176,9 +176,9 @@ const VoiceHandler = ({ onCommand }) => {
           // console.log("inside gemini response")
           const translatedTextResponse = translatedText.data.candidates[0].content.parts[0].text
 
-          const translatedString =JSON.stringify(translatedTextResponse).slice(1,-4)
+          const translatedString =JSON.stringify(translatedTextResponse).slice(1,-3)
           
-          // console.log(translatedTextResponse)
+          console.log(translatedTextResponse)
           console.log(translatedString)
           // console.log(typeof(translatedString))
           const extractedtranscript = await handletranscript(translatedString)
