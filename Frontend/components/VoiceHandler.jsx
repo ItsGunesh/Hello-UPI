@@ -11,6 +11,11 @@ const VoiceHandler = ({ onCommand }) => {
   const [pinAttempts, setPinAttempts] = useState(0);
   const [shouldClearPin, setShouldClearPin] = useState(false);
   const [pinstatus, setPinStatus] = useState('')
+  const [UPIactivate, setUPIactivate] = useState(false)
+  const [langCode, setLangCode] = useState("en-IN")
+
+  // let langCode = "en-IN"
+  let lang = "english"
 
 
   const CORRECT_PIN = "2308";
@@ -134,91 +139,100 @@ const VoiceHandler = ({ onCommand }) => {
 
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
-    recognition.lang = "en-IN";
+    recognition.lang = langCode;
+    // console.log("LangCode:",langCode)
 
     recognition.onresult = async (event) => {
       const transcript = event.results[event.results.length - 1][0].transcript
         .trim()
         .toLowerCase();
 
-      console.log("Heard:", transcript);
+      console.log(transcript)
 
-      if (transcript.includes("hello upi")) {
-        onCommand("UPI activated.");
-      } else {
-        onCommand(`Transaction command detected: "${transcript}"`);
+      // recognition.stop()
+      if (UPIactivate) {
+        listenForTransactionCommand(transcript, lang)
+        setUPIactivate(false)
+      }
+      else if (transcript.includes("upi")) {
 
-        const prompt = `Translate the following sentence into English. If you encounter any words like 'two hundred', 'five hundred', etc., replace them with their numeric values (e.g., 'two hundred' becomes 200, 'five hundred' becomes 500). Return only the translated sentence with no quotes. Sentence is this - ${transcript}`
+        console.log("Heard:", transcript);
+        const firstWord = transcript.split(" ")[0]
+        // console.log(firstWord)
 
-        const geminiApi = import.meta.env.VITE_GEMINI_API_KEY
+        switch (firstWord.toLowerCase()) {
+          case "namaste":
+            // recognition.lang = "hi-IN";
+            // langCode = "hi-IN"
+            setLangCode("hi-IN")
+            lang = "hindi"
+            onCommand("UPI activate ho chuka hai");
+            break;
 
+          case "namaskar":
+            // langCode = "mr-IN"
+            setLangCode("mr-IN")
+            lang = "marathi"
+            onCommand("UPI suru zalay");
+            break;
 
-        const translatedText = await axios.post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", {
-          contents: [
-            {
-              parts: [
-                {
-                  text: prompt
-                }
-              ]
-            }
-          ]
-        },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'X-goog-api-key': geminiApi
-            },
-          })
+          case "nomoshkar":
+            // langCode = "bn-IN"
+            setLangCode("bn-IN")
+            lang = "bengali"
+            onCommand("UPI chalu hoye geche");
+            break;
 
+          case "namaste-gujarati":
+            // langCode = "hi-IN"
+            lang = "hindi"
+            onCommand("UPI chalu thai gayu chhe");
+            break;
 
-        if (translatedText.status === 200) {
-          // console.log("inside gemini response")
-          const translatedTextResponse = translatedText.data.candidates[0].content.parts[0].text
+          case "vanakkam":
+            // langCode = "ta-IN"
+            setLangCode("ta-IN")
+            lang = "tamil"
+            onCommand("UPI thodangiyullathu");
+            break;
 
-          const translatedString =JSON.stringify(translatedTextResponse).slice(1,-3)
-          
-          console.log(translatedTextResponse)
-          console.log(translatedString)
-          // console.log(typeof(translatedString))
-          const extractedtranscript = await handletranscript(translatedString)
+          case "namaskaram":
+            // langCode = "te-IN"
+            setLangCode("te-IN")
+            lang = "telugu"
+            onCommand("UPI modalaindhi");
+            break;
 
+          case "namaskara":
+            // langCode = "kn-IN"
+            setLangCode("kn-IN")
+            lang = "kannada"
+            onCommand("UPI shuru aagide");
+            break;
 
-          // JSON.stringify(extractedtranscript)
+          case "sat":
+            // langCode = "pa-IN"
+            setLangCode("pa-IN")
+            lang = "punjabi"
+            onCommand("UPI chalu ho chukka hai");
+            break;
 
-          const extractedAmount = extractedtranscript.data.Amount;
-          const extractedPerson = extractedtranscript.data.Receiver;
-
-          // console.log(extractedAmount)
-          // console.log(extractedPerson)
-
-          if (!extractedAmount || !extractedPerson) {
-            onCommand(extractedtranscript.data)
-          }
-          else {
-            initiatePayment(extractedAmount, extractedPerson)
-          }
+          default:
+            onCommand("UPI has been activated");
+            break;
         }
 
-
-        // console.log(extractedtranscript.data) .
-
-        // console.log(typeof(extractedtranscript.data))
-
-        // const words = transcript.toLowerCase().split(' ');
-        // const amountIndex = words.findIndex(word => word === 'send') + 1;
-        // const toIndex = words.findIndex(word => word === 'to') + 1;
+        recognition.lang = langCode
 
 
-
-        // console.log(extractedAmount)
-        // console.log(extractedPerson)
-
-
-
-
+        // console.log(lang)
+        setUPIactivate(true)
+        // recognition.stop();
 
       }
+
+
+
     };
 
     recognition.onerror = (event) => {
@@ -229,6 +243,196 @@ const VoiceHandler = ({ onCommand }) => {
 
     return () => recognition.stop();
   }, [onCommand]);
+
+  const listenForTransactionCommand = async (text, lang) => {
+    // const SpeechRecognition =
+    //   window.SpeechRecognition || window.webkitSpeechRecognition;
+    // const recognition2 = new SpeechRecognition();
+    // recognition2.continuous = true;
+    // recognition2.lang = langCode;
+
+    // recognition2.onresult = async (event) => {
+    //   const transCommand = event.results[event.results.length - 1][0].transcript
+    //     .trim()
+    //     .toLowerCase();
+
+    console.log(text)
+
+    // if(text.includes("upi")) return "UPI command"
+
+    onCommand(`Transaction command detected: "${text}"`);
+
+    const prompt = `You are a translation engine. 
+Task: Translate the following sentence from ${lang} to English. 
+Rules:
+1. Preserve the meaning and correct word order of the original sentence.
+2. Replace written numbers like 'two hundred', 'five hundred' with their numeric form (200, 500).
+3. Do not output quotes, full stops, commas, or special characters.
+4. Replace currency symbols with their English word (₹ -> rupees).
+5. Output must always follow the structure: action + number (if any) + to + person/object.
+6. Output only the translated sentence.
+
+Sentence: ${text}`
+
+    const geminiApi = import.meta.env.VITE_GEMINI_API_KEY
+
+
+    const translatedText = await axios.post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", {
+      contents: [
+        {
+          parts: [
+            {
+              text: prompt
+            }
+          ]
+        }
+      ]
+    },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-goog-api-key': geminiApi
+        },
+      })
+
+
+    if (translatedText.status === 200) {
+      console.log("inside gemini response")
+      const translatedTextResponse = translatedText.data.candidates[0].content.parts[0].text
+
+      const translatedString = JSON.stringify(translatedTextResponse).slice(1, -3)
+
+      console.log("translatedtextresponse", translatedTextResponse)
+      console.log("translatedString", translatedString)
+      // console.log(typeof(translatedString))
+      const extractedtranscript = await handletranscript(translatedString)
+
+
+      // JSON.stringify(extractedtranscript)
+
+      const extractedAmount = extractedtranscript.data.Amount;
+      const extractedPerson = extractedtranscript.data.Receiver;
+
+      // console.log(extractedAmount)
+      // console.log(extractedPerson)
+
+      if (!extractedAmount || !extractedPerson) {
+        onCommand(extractedtranscript.data)
+      }
+      else {
+        initiatePayment(extractedAmount, extractedPerson)
+      }
+    }
+
+
+    // console.log(extractedtranscript.data) .
+
+    // console.log(typeof(extractedtranscript.data))
+
+    // const words = transcript.toLowerCase().split(' ');
+    // const amountIndex = words.findIndex(word => word === 'send') + 1;
+    // const toIndex = words.findIndex(word => word === 'to') + 1;
+
+
+
+    // console.log(extractedAmount)
+    // console.log(extractedPerson)
+    // };
+
+    // recognition2.onerror = (event) => {
+    //   console.error("Speech recognition error:", event.error);
+    // };
+
+    // recognition2.start();
+  }
+
+  // useEffect(()=>{
+
+  //   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // if (!SpeechRecognition) {
+  //   console.error("SpeechRecognition not supported in this browser.");
+  //   return;
+  // }
+  // const recognition = new SpeechRecognition();
+  // recognition.lang = langCode
+
+  //   if(UPIactivate){
+  //     recognition.start()
+  //     recognition.onresult = async (event) => {
+  //     const transCommand = event.results[event.results.length - 1][0].transcript
+  //       .trim()
+  //       .toLowerCase();
+
+  //       onCommand(`Transaction command detected: "${transCommand}"`);
+
+  //     const prompt = `Translate the following ${lang} sentence to English language. If you encounter any words like 'two hundred', 'five hundred', etc., replace them with their numeric values (e.g., 'two hundred' becomes 200, 'five hundred' becomes 500). Return only the translated sentence with no quotes no full stops. Sentence is this - ${transCommand}`
+
+  //     const geminiApi = import.meta.env.VITE_GEMINI_API_KEY
+
+
+  //     const translatedText = await axios.post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", {
+  //       contents: [
+  //         {
+  //           parts: [
+  //             {
+  //               text: prompt
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'X-goog-api-key': geminiApi
+  //         },
+  //       })
+
+
+  //     if (translatedText.status === 200) {
+  //       console.log("inside gemini response")
+  //       const translatedTextResponse = translatedText.data.candidates[0].content.parts[0].text
+
+  //       const translatedString = JSON.stringify(translatedTextResponse).slice(1, -3)
+
+  //       console.log("translatedtextresponse",translatedTextResponse)
+  //       console.log("translatedString",translatedString)
+  //       console.log(typeof(translatedString))
+  //       const extractedtranscript = await handletranscript(translatedString)
+
+
+  //       // JSON.stringify(extractedtranscript)
+
+  //       const extractedAmount = extractedtranscript.data.Amount;
+  //       const extractedPerson = extractedtranscript.data.Receiver;
+
+  //       // console.log(extractedAmount)
+  //       // console.log(extractedPerson)
+
+  //       if (!extractedAmount || !extractedPerson) {
+  //         onCommand(extractedtranscript.data)
+  //       }
+  //       else {
+  //         initiatePayment(extractedAmount, extractedPerson)
+  //       }
+  //     }
+
+
+  //     // console.log(extractedtranscript.data) .
+
+  //     // console.log(typeof(extractedtranscript.data))
+
+  //     // const words = transcript.toLowerCase().split(' ');
+  //     // const amountIndex = words.findIndex(word => word === 'send') + 1;
+  //     // const toIndex = words.findIndex(word => word === 'to') + 1;
+
+
+
+  //     // console.log(extractedAmount)
+  //     // console.log(extractedPerson)
+  //     }
+  //   }
+  // })
 
   return (
     <>

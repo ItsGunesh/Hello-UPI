@@ -26,7 +26,7 @@ def process_transaction(input_sentence: str) -> str:
         return "Invalid transaction command."
 
     amount_match = re.search(r'(rs|rupees|dollars)?\s*(\d+)', input_sentence, re.IGNORECASE)
-    receiver_match = re.search(r'to\s+([a-zA-Z]+)', input_sentence)
+    receiver_match = re.search(r'(?:send|transfer|pay|give|move|deposit|make a payment of)\s+(?:\d+\s*(?:rs|rupees|dollars)?\s*(?:to\s+)?|to\s+)?([a-zA-Z]+)', input_sentence, re.IGNORECASE)
 
     if not amount_match or not receiver_match:
         return "Invalid transaction command: Missing amount or receiver."

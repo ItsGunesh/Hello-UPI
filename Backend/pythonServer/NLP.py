@@ -5,7 +5,7 @@ import spacy
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-import joblib   # <-- ADD THIS
+import joblib   
 
 # Load the SpaCy model
 nlp = spacy.load("en_core_web_md")
@@ -56,7 +56,8 @@ def process_transaction(input_sentence):
     
     # Extract the amount and receiver name
     amount_match = re.search(r'(rs|rupees|dollars)?\s*(\d+)', input_sentence, re.IGNORECASE)  
-    receiver_match = re.search(r'to\s+([a-zA-Z]+)', input_sentence)  
+    receiver_match = re.search(r'(?:send|transfer|pay|give|move|deposit|make a payment of)\s+(?:\d+\s*(?:rs|rupees|dollars)?\s*(?:to\s+)?|to\s+)?([a-zA-Z]+)', input_sentence, re.IGNORECASE)
+  
     
     if not amount_match or not receiver_match:
         return "Invalid transaction: Missing amount or receiver."
