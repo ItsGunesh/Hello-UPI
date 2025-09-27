@@ -3,6 +3,9 @@ import TransactionCard from './TransactionCard'
 import Navigator from "../Navigator/Navigator.jsx"
 import QuickActions from "../QuickAction/QuickAction.jsx"
 import axios from "axios"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
+import * as XLSX from 'xlsx';
 
 const TransactionIndex = () => {
     const [transactions, setTransactions] = useState([])
@@ -76,7 +79,7 @@ const TransactionIndex = () => {
 
 
             if (response.status === 200) {
-                setRawData(response.data)
+                setRawData(response.data.data.items)
 
                 if (response.data && response.data.success) {
                     if (response.data.data && Array.isArray(response.data.data.items)) {
@@ -152,6 +155,23 @@ const TransactionIndex = () => {
         }
     }
 
+    const handleXLDownload = () => {
+        console.log(rawData[0].amount / 100)
+
+        rawData.forEach((ele) => {
+            ele.amount = ele.amount / 100
+            ele.debit = ele.debit / 100
+            ele.balance = ele.balance / 100
+            ele.created_at = formatDate(ele.created_at)
+        });
+        const ws = XLSX.utils.json_to_sheet(rawData);
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        XLSX.writeFile(wb, 'transactionData.xlsx');
+    }
+
     return (
         <>
             <div className='bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-500 '>
@@ -162,7 +182,13 @@ const TransactionIndex = () => {
                     <QuickActions />
                 </div>
                 <div className='m-5 p-5 text-bold bg-slate-800 text-slate-100 rounded-2xl mx-[10%]'>
-                    <p className='text-3xl font-bold px-5 mb-6'>Transactions History</p>
+                    <div className='flex justify-between items-center px-10 '>
+                        <p className='text-3xl font-bold px-5'>Transactions History</p>
+                        <div className='relative group inline-block'>
+                            <FontAwesomeIcon icon={faFileArrowDown} className='text-white text-3xl px-3' onClick={handleXLDownload} />
+                            <span className="absolute transform opacity-0 right-15 group-hover:opacity-100 transition-opacity duration-300  ">Download Excel file</span>
+                        </div>
+                    </div>
 
                     {loading && (
                         <div className="text-center py-8">
