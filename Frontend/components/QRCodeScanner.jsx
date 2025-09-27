@@ -11,8 +11,36 @@ const QRCodeScanner = () => {
   const [contact, setContact] = useState()
   const [email, setEmail] = useState()
 
+  const checkVpaExist = async(Name,Email,Contact,vpaID)=>{
+    const apiUrl = import.meta.env.VITE_BACKEND_URL
+
+    // console.log(vpaID)
+    try {
+      const response = await axios.post(`${apiUrl}/api/contact/exist`,{vpaID},{
+        headers: {
+          "Content-Type": "application/json"
+        },
+        withCredentials: true
+      })
+
+      if(response.status ===200){
+        console.log(response)
+        if(response.data.data === false){
+          handleQR(Name,Email,Contact,vpaID)
+        }
+        else{
+          console.log("contact already exist")
+        }
+      }
+    } catch (error) {
+      console.log("Error in vpaExists",error)
+    }
+  }
+
   const handleQR = async (Name,Email,Contact,vpaID) => {
     const apiUrl = import.meta.env.VITE_BACKEND_URL
+
+    // console.log(Name,Email,Contact,vpaID)
 
     try {
 
@@ -23,7 +51,7 @@ const QRCodeScanner = () => {
         withCredentials: true
       })
 
-      // console.log(response)
+      // console.log("create contact response" , response)
 
       if (response.status === 200) {
         const contId = response.data.data.id
@@ -38,6 +66,8 @@ const QRCodeScanner = () => {
         },
         withCredentials: true
         })
+
+        // console.log("QRFA response" , QrFundAccResponse)
 
         if(QrFundAccResponse.status===200){
           console.log("Account created Sucessfully")
@@ -70,11 +100,11 @@ const QRCodeScanner = () => {
 
       if (exeText.length === 10 && !isNaN(exeText) && !isNaN(parseFloat(exeText))) {
         setContact(exeText)
-        handleQR(Name,"",exeText,vpaID)
+        checkVpaExist(Name,"",exeText,vpaID)
       }
       else {
         setEmail(exeText)
-        handleQR(Name,exeText,"",vpaID)
+        checkVpaExist(Name,exeText,"",vpaID)
       }
 
 
