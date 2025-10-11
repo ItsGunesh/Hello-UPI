@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 import axios from "axios";
 import PinModal from "./PinModal";
+import Footer from "./Footer/Footer";
+import Navigator from "./Navigator/Navigator";
 
 const QRCodeScanner = () => {
   const videoRef = useRef(null);
@@ -19,6 +21,7 @@ const QRCodeScanner = () => {
   const [pinstatus, setPinStatus] = useState('')
   const [amountModal, setAmountModal] = useState(false)
   const [amount, setAmount] = useState()
+  const [processMessage, setProcessMessage] = useState()
 
   const CORRECT_PIN = import.meta.env.VITE_CORRECT_PIN;
   const MAX_PIN_ATTEMPTS = import.meta.env.VITE_MAX_PIN_ATTEMPTS;
@@ -31,6 +34,7 @@ const QRCodeScanner = () => {
 
     try {
       // console.log(apiUrl)
+      setProcessMessage(`Making a payment of ${amount} to ${person}...`)
 
       const requestData = {
         person: person,
@@ -47,6 +51,7 @@ const QRCodeScanner = () => {
       if (response.status === 200) {
         // console.log('Payment response:', response.data)
         // onCommand(`Payment processed: ₹${amount} to ${person}`)
+        setProcessMessage(`Payment of ${amount} to ${person} completed successfully`)
       }
     } catch (error) {
       console.log("Error processsing payment", error)
@@ -60,6 +65,7 @@ const QRCodeScanner = () => {
     if (pin === CORRECT_PIN) {
       setShowPinModal(false);
       setPinAttempts(0);
+      setScannedText(true)
       // onCommand("PIN verified. Processing payment...");
       setPinStatus("PIN verified.")
       if (pendingPayment) {
@@ -185,14 +191,16 @@ const QRCodeScanner = () => {
     recognition.onresult = async (event) => {
       const transcript = event.results[event.results.length - 1][0].transcript
         .trim()
-        .toLowerCase();
+        .toLowerCase()
+        .split(' ')[0];
 
       if (/\d/.test(transcript)) {
         setAmount(transcript);
         console.log("Amount recognized:", transcript);
         setShowPinModal(true)
+        setScannedText(false)
         recognition.stop();
-        setPendingPayment({transcript,fullName})
+        setPendingPayment({ transcript, fullName })
       }
 
     };
@@ -271,36 +279,44 @@ const QRCodeScanner = () => {
   }, [cameraActive]);
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {cameraActive && <video
-        ref={videoRef}
-        style={{ width: "100%", maxWidth: "400px", borderRadius: "12px" }}
-      />}
+    <>
+      <div className="flex flex-col w-screen h-screen bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-500">
+        <Navigator />
+        <div className="flex flex-col h-screen justify-center items-center gap-4 ">
+          {cameraActive && !scannedText && <video className="border-slate-900 border-10"
+            ref={videoRef}
+            style={{ width: "100%", maxWidth: "400px", borderRadius: "12px" }}
+          />}
 
-      {scannedText && (
-        <p className="text-white bg-slate-900 font-mono break-words p-2 rounded">
-          {/* {scannedText} */}
-          {!amount &&
-            `Please say the amount to be transfered`}
+          {scannedText && (
+            <div className="h-screen flex items-center justify-center">
+              <span className="text-white bg-slate-900 font-mono break-words py-2 px-5 rounded">
+                {/* {scannedText} */}
+                {!amount &&
+                  `Please say the amount to be transfered`}
 
-          {amount && `Amount to be transferred is ${amount}`}
+                {amount && processMessage}
 
-          {/* {fullName} */}
-          {/* {upiId} */}
-          {/* {amount} */}
+                {/* {fullName} */}
+                {/* {upiId} */}
+                {/* {amount} */}
 
-        </p>
-      )}
+              </span>
+            </div>
+          )}
 
-      <PinModal
-        visible={showPinModal}
-        onVerify={handlePinVerify}
-        onClose={handlePinClose}
-        isProcessing={isProcessing}
-        shouldClearPin={shouldClearPin}
-        pinstatus={pinstatus}
-      />
-    </div>
+          <PinModal
+            visible={showPinModal}
+            onVerify={handlePinVerify}
+            onClose={handlePinClose}
+            isProcessing={isProcessing}
+            shouldClearPin={shouldClearPin}
+            pinstatus={pinstatus}
+          />
+        </div>
+        {/* <Footer /> */}
+      </div>
+    </>
   );
 };
 
