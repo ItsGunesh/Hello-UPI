@@ -57,7 +57,7 @@ const Balance = () => {
               : <span className='text-4xl font-bold'>₹ ******</span>}
           </div>
           <div>
-            <p>UPI ID : girish@ybl</p>
+            <p>UPI ID : psuedogunesh@ybl</p>
           </div>
         </div>
         <div className='flex justify-center items-center gap-5'>

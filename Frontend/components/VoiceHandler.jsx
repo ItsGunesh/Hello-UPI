@@ -18,8 +18,8 @@ const VoiceHandler = ({ onCommand }) => {
   let lang = "english"
 
 
-  const CORRECT_PIN = "2308";
-  const MAX_PIN_ATTEMPTS = 3;
+  const CORRECT_PIN = import.meta.env.VITE_CORRECT_PIN;
+  const MAX_PIN_ATTEMPTS = import.meta.env.VITE_MAX_PIN_ATTEMPTS;
 
 
 
