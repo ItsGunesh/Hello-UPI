@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 const PinModal = ({ visible, onVerify, onClose, isProcessing = false, shouldClearPin = false , pinstatus }) => {
   const [pin, setPin] = useState('');
@@ -25,6 +27,9 @@ const PinModal = ({ visible, onVerify, onClose, isProcessing = false, shouldClea
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-opacity-80 w-[64%] mt-[4%] mb-[5%]">
       <div className="bg-white rounded-lg shadow-lg p-6 w-72 flex flex-col items-center">
+        <div className='border-2 py-2 px-4 rounded-4xl bg-slate-800 text-white'>
+          <FontAwesomeIcon icon={faCamera} />
+        </div>
         <h2 className="text-lg font-bold mb-2">Enter PIN</h2>
         <input
           type="password"
