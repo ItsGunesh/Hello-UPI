@@ -1,6 +1,8 @@
 This is an undergoing voice assisted payments app running on voice commands that mean a transaction to a person .  
 You can give command like "Pay 200 to Rahul" and with a small pin verification , the funds would be transfered to Rahul's account.  
 It comes with support of several indian languages.
+It also supports QR.
+Currently working on biometrics.
 
 
 
