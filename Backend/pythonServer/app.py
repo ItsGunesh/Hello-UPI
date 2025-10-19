@@ -62,17 +62,15 @@ def extract(data: InputData):
     return result
 
 
-# -------------------- FACE RECOGNITION SECTION --------------------
-
-# Path to your registered reference face image
-REFERENCE_FACE_PATH = "DP.jpg"  # make sure this file exists in the same folder
 
 
-@app.post("/verify_face")
+
+REFERENCE_FACE_PATH = "DP.jpg"
+
+
+@app.post("/recognise")
 async def verify_face(file: UploadFile = File(...)):
-    """
-    Receives a webcam frame from the frontend and verifies if it matches your stored face.
-    """
+
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
     temp_file.write(await file.read())
     temp_file.close()
@@ -81,7 +79,7 @@ async def verify_face(file: UploadFile = File(...)):
         result = DeepFace.verify(
             img1_path=REFERENCE_FACE_PATH,
             img2_path=temp_file.name,
-            enforce_detection=False  # prevent crash if face partially visible
+            enforce_detection=False
         )
 
         verified = result.get("verified", False)
