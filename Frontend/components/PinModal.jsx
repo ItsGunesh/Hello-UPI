@@ -10,6 +10,7 @@ const PinModal = ({
   isProcessing = false,
   shouldClearPin = false,
   pinstatus,
+  transCommand
 }) => {
   const [pin, setPin] = useState("");
   const [cameraActive, setCameraActive] = useState(false);
@@ -101,6 +102,7 @@ const PinModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-opacity-80 w-[64%] mt-[4%] mb-[5%]">
       <div className="bg-white rounded-lg shadow-lg p-6 w-72 flex flex-col items-center">
+      <p className="font-bold text-center mb-10 border-3 p-2 border-slate-900 rounded-2xl">{transCommand}</p>
         <div
           className="border-2 py-2 px-4 rounded-4xl bg-slate-800 text-white cursor-pointer hover:bg-slate-700"
           onClick={startCamera}

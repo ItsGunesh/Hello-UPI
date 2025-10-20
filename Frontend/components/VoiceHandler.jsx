@@ -13,6 +13,8 @@ const VoiceHandler = ({ onCommand }) => {
   const [pinstatus, setPinStatus] = useState('')
   const [UPIactivate, setUPIactivate] = useState(false)
   const [langCode, setLangCode] = useState("en-IN")
+  const [amount,setAmount] = useState()
+  const [fullName,setFullName] = useState()
 
   // let langCode = "en-IN"
   let lang = "english"
@@ -312,6 +314,8 @@ Sentence: ${text}`
 
       const extractedAmount = extractedtranscript.data.Amount;
       const extractedPerson = extractedtranscript.data.Receiver;
+      setFullName(extractedPerson)
+      setAmount(extractedAmount)
 
       // console.log(extractedAmount)
       // console.log(extractedPerson)
@@ -443,6 +447,7 @@ Sentence: ${text}`
         isProcessing={isProcessing}
         shouldClearPin={shouldClearPin}
         pinstatus={pinstatus}
+        transCommand={`Making a pyament of ${amount} to ${fullName}`}
       />
     </>
   );

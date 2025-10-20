@@ -324,6 +324,7 @@ const QRCodeScanner = () => {
             isProcessing={isProcessing}
             shouldClearPin={shouldClearPin}
             pinstatus={pinstatus}
+            transCommand={`Making a pyament of ${amount} to ${fullName}`}
           />
           <div>
             <a className="px-4 py-2 bg-slate-900 text-white rounded-xl mt-4" href="/" >Back to Home</a>
