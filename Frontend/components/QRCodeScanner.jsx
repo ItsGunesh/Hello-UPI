@@ -254,7 +254,7 @@ const QRCodeScanner = () => {
           const text = result.getText();
 
           if (text.startsWith("upi://")) {
-            setScannedText(text);
+            setScannedText("Please say the amount to be transfered");
             extractUPIDetails(text);
             console.log("✅ QR Code:", text);
 
@@ -291,11 +291,10 @@ const QRCodeScanner = () => {
           />}
 
           {scannedText && (
-            <div className="h-screen flex items-center justify-center">
+            <div className="h-fit flex items-center justify-center">
               <span className="text-white bg-slate-900 font-mono break-words py-2 px-5 rounded">
                 {/* {scannedText} */}
-                {!amount &&
-                  `Please say the amount to be transfered`}
+                {!amount && scannedText}
 
                 {amount &&
                   <div className="flex flex-col items-center justify-center gap-5 p-5">
@@ -326,6 +325,9 @@ const QRCodeScanner = () => {
             shouldClearPin={shouldClearPin}
             pinstatus={pinstatus}
           />
+          <div>
+            <a className="px-4 py-2 bg-slate-900 text-white rounded-xl mt-4" href="/" >Back to Home</a>
+          </div>
         </div>
         {/* <Footer /> */}
       </div>
