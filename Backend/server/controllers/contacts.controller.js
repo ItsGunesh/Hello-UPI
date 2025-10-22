@@ -100,7 +100,7 @@ const fetchContacts = async (req, res) => {
     try {
         // console.log("I am controller")
         const response = await axios.get(
-            `https://api.razorpay.com/v1/contacts`,
+            `https://api.razorpay.com/v1/contacts?count=100&skip=0`,
             {
                 auth: {
                     username: key_id,
@@ -110,8 +110,12 @@ const fetchContacts = async (req, res) => {
         );
 
         if (response.status === 200) {
+            const contactData = response.data.items
+            // console.log(typeof(contactData))
+            // console.log(contactData)
+            const activeContacts = contactData.filter((c)=>c.active===true)
             res.status(200).json(
-                new ApiResponse(200, response.data, "Fetched contacts Successfully")
+                new ApiResponse(200, activeContacts, "Fetched contacts Successfully")
             )
         }
     } catch (error) {

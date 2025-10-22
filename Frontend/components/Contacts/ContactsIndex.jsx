@@ -22,8 +22,8 @@ const ContactsIndex = () => {
 
 
             if (response.status === 200) {
-                // console.log(response.data.data.items)
-                setContacts(response.data.data.items)
+                // console.log(response.data.data)
+                setContacts(response.data.data)
             }
         } catch (error) {
             console.log("Error while fetching contacts", error)
@@ -73,7 +73,7 @@ const ContactsIndex = () => {
                     </div>
                     <div className='grid grid-cols-3 gap-5 pb-5'>
                         {contacts.map((item, idx) => (
-                            <ContactCard name={item.name} key={idx} email={item.email} />
+                            <ContactCard name={item.name} key={idx} email={item.email?item.email:item.contact} />
                         ))}
                     </div>
                 </div>
