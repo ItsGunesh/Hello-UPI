@@ -21,6 +21,12 @@ const PinModal = ({
     if (shouldClearPin) setPin("");
   }, [shouldClearPin]);
 
+  useEffect(() => {
+  if (pin.length === 4) {
+    handleSubmit();
+  }
+}, [pin]);
+
   const startCamera = async () => {
     if (cameraActive) return;
     setCameraActive(true);
@@ -72,9 +78,11 @@ const PinModal = ({
           stopCamera();
           alert("Face verified successfully!");
           const correctPin = import.meta.env.VITE_CORRECT_PIN
+          // console.log("correctPin",correctPin)
           setPin(correctPin)
           // console.log("PIN",import.meta.env.VITE_CORRECT_PIN)
-          handleSubmit(correctPin)
+          // console.log(pin)
+          // handleSubmit()
         }
       } catch (err) {
         console.error("Error sending frame:", err.response?.data || err.message);
@@ -88,8 +96,8 @@ const PinModal = ({
 
   const handleClear = () => setPin("");
 
-  const handleSubmit = (manualPin) => {
-    onVerify(manualPin || pin);
+  const handleSubmit = () => {
+    onVerify(pin);
     setPin("");
   };
 
