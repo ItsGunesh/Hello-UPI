@@ -46,7 +46,7 @@ const VoiceHandler = ({ onCommand }) => {
 
       if (response.status === 200) {
         // console.log('Payment response:', response.data)
-        onCommand(`Payment processed: ₹${amount} to ${person}`)
+        onCommand(response.data.message)
       }
     } catch (error) {
       console.log("Error processsing payment", error)

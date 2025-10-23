@@ -158,11 +158,20 @@ const processPayment = asyncHandler(async(req,res)=>{
         });
 
         // console.log('Payment Response:', payoutResponse.data);
-        res.json({
+        if(payoutResponse.data.fees===0){
+            res.json({
+            success: true,
+            message: `Insufficient Balance`,
+            payoutResponse: payoutResponse.data
+        });
+        }
+        else{
+            res.json({
             success: true,
             message: `₹${amount} sent to ${person} successfully.`,
             payoutResponse: payoutResponse.data
         });
+        }
     } catch (error) {
         console.error('Error initiating payout:', error.response ? error.response.data : error.message);
         res.status(500).json({ 
