@@ -49,8 +49,8 @@ const VoiceHandler = ({ onCommand }) => {
         onCommand(response.data.message)
       }
     } catch (error) {
-      console.log("Error processsing payment", error)
-      onCommand(`Payment failed: ${error.message}`)
+      // console.log("Error processsing payment", error)
+      onCommand(`Payment failed: ${error.response.data.error.error.description}.UPI has a transaction cap of 100000.`)
     } finally {
       setIsProcessing(false);
     }
