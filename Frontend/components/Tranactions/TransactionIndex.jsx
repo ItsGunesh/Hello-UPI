@@ -30,14 +30,36 @@ const TransactionIndex = () => {
             })
 
             if (response.status === 200 && response.data.success) {
-                const name = response.data.data?.bank_account?.name || 'Unknown'
+                // console.log("Debug2", response.data)
+                if (response.data.data.account_type === "vpa") {
+                    try {
+                        const vpaResponse = await axios.get(`${apiUrl}/api/data/fetchVpa/${response.data.data.contact_id}`, {
+                            withCredentials: true
+                        })
 
-                setAccountNames(prev => ({
-                    ...prev,
-                    [accountID]: name
-                }))
+                        if (vpaResponse.status === 200) {
+                            // console.log("VpaResponse",vpaResponse.data.data.name)
+                            setAccountNames(prev => ({
+                                ...prev,
+                                [accountID]: vpaResponse.data.data.name
+                            }))
 
-                return name
+                            return vpaResponse.data.data.name
+                        }
+                    } catch (error) {
+                        console.log("Error Fetching contacts", error)
+                    }
+                }
+                else {
+                    const name = response.data.data?.bank_account?.name
+
+                    setAccountNames(prev => ({
+                        ...prev,
+                        [accountID]: name
+                    }))
+
+                    return name
+                }
             }
         } catch (error) {
             console.log("Error fetching names:", error)
@@ -148,7 +170,7 @@ const TransactionIndex = () => {
             case 'processing':
                 return 'text-yellow-800'
             case 'failed':
-            case 'error':
+            case 'reversed':
                 return 'text-red-600'
             default:
                 return 'text-gray-800'

@@ -118,4 +118,32 @@ const fetchName = asyncHandler(async (req, res) => {
     }
 })
 
-export { getBalance, getTransactions, fetchName }
+const fetchVpa = asyncHandler(async(req,res)=>{
+    const key_id = process.env.RAZORPAY_KEY_ID
+    const key_secret = process.env.RAZORPAY_KEY_SECRET
+    const contactId = req.params.id
+
+    try {
+        const response = await axios.get(`https://api.razorpay.com/v1/contacts/${contactId}`,{
+        auth: {
+                    username: key_id,
+                    password: key_secret,
+                },
+    })
+
+    if(response.status===200){
+        // console.log("Response",response.data)
+        return res.status(200).json(
+            new ApiResponse(200, response.data, "Contact details fetched successfully")
+        );
+    }
+    } catch (error) {
+        // console.log("Fetchcontact Error",error)
+        throw new ApiError(
+            error.response?.status || 500, 
+            error.response?.data?.error?.description || "Failed to fetch account details"
+        )
+    }
+})
+
+export { getBalance, getTransactions, fetchName ,fetchVpa}
