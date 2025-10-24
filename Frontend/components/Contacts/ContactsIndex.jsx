@@ -57,24 +57,26 @@ const ContactsIndex = () => {
                 <div>
                     <Navigator />
                 </div>
-                <div className='mx-[10%]'>
-                    <QuickActions />
-                </div>
+                <div className='flex flex-row'>
+                    <div className='w-[50%] ml-[5%]'>
+                        <QuickActions />
+                    </div>
 
-                <div className='mx-[10%]'>
-                    <div className='flex justify-between px-10 items-center bg-white p-5 rounded-2xl'>
-                        <p className='text-3xl text-slate-800 font-bold'>Contacts</p>
-                        <div className='flex items-center gap-5 '>
-                            <FontAwesomeIcon icon={faQrcode} className='text-4xl' onClick={toggleQr} />
-                            <div className='py-2 px-5 w-fit h-fit bg-red-700 text-white rounded-3xl' onClick={update}>
-                                <p className='text-xl'>Create Contact</p>
+                    <div className='m-5 mx-[5%] w-[50%]'>
+                        <div className=' flex justify-between px-10 items-center bg-white p-5 rounded-2xl'>
+                            <p className='text-3xl text-slate-800 font-bold'>Contacts</p>
+                            <div className='flex items-center gap-5 '>
+                                <FontAwesomeIcon icon={faQrcode} className='text-4xl' onClick={toggleQr} />
+                                <div className='py-2 px-5 w-fit h-fit bg-red-700 text-white rounded-3xl' onClick={update}>
+                                    <p className='text-xl'>Create Contact</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className='grid grid-cols-3 gap-5 pb-5'>
-                        {contacts.map((item, idx) => (
-                            <ContactCard name={item.name} key={idx} email={item.email?item.email:item.contact} />
-                        ))}
+                        <div className='grid grid-cols-3 gap-5 pb-5'>
+                            {contacts.map((item, idx) => (
+                                <ContactCard name={item.name} key={idx} email={item.email ? item.email : item.contact} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

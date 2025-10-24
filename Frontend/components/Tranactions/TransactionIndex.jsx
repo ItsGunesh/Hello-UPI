@@ -200,10 +200,11 @@ const TransactionIndex = () => {
                 <div>
                     <Navigator />
                 </div>
-                <div className='mx-[10%]'>
+                <div className='flex flex-row'>
+                    <div className='w-[50%] ml-[5%]'>
                     <QuickActions />
                 </div>
-                <div className='m-5 p-5 text-bold bg-slate-800 text-slate-100 rounded-2xl mx-[10%]'>
+                <div className='m-5 w-[50%] p-5 text-bold bg-slate-800 text-slate-100 rounded-2xl mx-[5%]'>
                     <div className='flex justify-between items-center px-10 '>
                         <p className='text-3xl font-bold px-5'>Transactions History</p>
                         <div className='relative group inline-block'>
@@ -262,6 +263,7 @@ const TransactionIndex = () => {
                             ))}
                         </div>
                     )}
+                </div>
                 </div>
             </div>
         </>
