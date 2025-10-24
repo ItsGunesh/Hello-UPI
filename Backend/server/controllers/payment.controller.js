@@ -118,6 +118,11 @@ const processPayment = asyncHandler(async(req,res)=>{
     
     const contacts = await checkContactExists(person);
     // console.log(contacts)
+    if(!contacts){
+        return res.status(200).json(
+            new ApiResponse(200,"Failed",`No contact named ${person} exists.`)
+        )
+    }
 
     const fetchedPerson = contacts.name
     const fetchedNumber = contacts.contact.length >10? contacts.contact.slice(3,13) : contacts.contact 
