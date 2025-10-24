@@ -304,7 +304,7 @@ Sentence: ${text}`
 
       const translatedString = JSON.stringify(translatedTextResponse).slice(1, -3)
 
-      console.log("translatedtextresponse", translatedTextResponse)
+      // console.log("translatedtextresponse", translatedTextResponse)
       console.log("translatedString", translatedString)
       // console.log(typeof(translatedString))
       const extractedtranscript = await handletranscript(translatedString)
@@ -312,10 +312,14 @@ Sentence: ${text}`
 
       // JSON.stringify(extractedtranscript)
 
+      // console.log(extractedtranscript.data)
+
       const extractedAmount = extractedtranscript.data.Amount;
       const extractedPerson = extractedtranscript.data.Receiver;
       setFullName(extractedPerson)
       setAmount(extractedAmount)
+
+      // console.log("Name",extractedPerson)
 
       // console.log(extractedAmount)
       // console.log(extractedPerson)

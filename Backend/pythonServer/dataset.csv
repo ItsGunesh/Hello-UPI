@@ -1,38 +1,38 @@
 sentence,label
 "send 100 rs to Akshat",1
-"transfer 250 rupees to Rahul",1
+"transfer 250 rupees to Rahul Bose",1
 "pay 50 dollars to John",1
-"give 999 rs to Riya",1
+"give 999 rs to Riya Pande",1
 "send money to Ankit",1
 "transfer 700 to Priya",1
 "send mayuri rupees 1000",1
 "can you send 400 rupees to Meena",1
 "move 150 rs to Mohit",1
-"deposit 300 rs to Karan",1
+"deposit 300 rs to Karan Malhotra",1
 "pay 600 to Sita",1
 "send 200 rs to Neha",1
 "transfer 50 dollars to Rohit",1
 "pay 1200 rupees to Shreya",1
-"deposit 1000 rs to Aman",1
+"deposit 1000 rs to Aman Patne",1
 "give 75 rupees to Pooja",1
 "give palak rupees 200",1
-"send 40 dollars to Ananya",1
+"send 40 dollars to Ananya Pandey",1
 "transfer 850 rs to Gaurav",1
 "pay 999 rs to Tanya",1
 "send 500 rupees to Manish",1
 "deposit 2500 rs to Sanjay",1
 "give 300 dollars to Kunal",1
-"move 120 rs to Sneha",1
+"move 120 rs to Sneha Lohbare",1
 "send ramesh rupees 50",1
 "pay 400 rupees to Raj",1
-"transfer 50 rs to Ramesh",1
+"transfer 50 rs to Ramesh Hedau",1
 "send 1000 rupees to Kavya",1
 "deposit 750 rs to Ishaan",1
 "give 1250 rs to Rekha",1
 "transfer 25 dollars to Vivek",1
 "pay 450 rupees to Nisha",1
 "send 2000 rs to Suresh",1
-"deposit 3000 rs to Anjali",1
+"deposit 3000 rs to Anjali Kashyap",1
 "give 150 rs to Divya",1
 "transfer 80 rs to Nitin",1
 "pay 5000 rupees to Shubham",1
@@ -41,7 +41,7 @@ sentence,label
 "give 950 rs to Bhavna",1
 "pay 330 rs to Sameer",1
 "send 1800 rs to Charu",1
-"transfer 210 rs to Tarun",1
+"transfer 210 rs to Tarun Naik",1
 "send khushi rupees 600",1
 "deposit 175 rs to Deepak",1
 "give 55 dollars to Kavita",1
@@ -51,14 +51,14 @@ sentence,label
 "deposit 1100 rs to Monica",1
 "give 1500 rs to Nandini",1
 "send 720 rs to Arjun",1
-"pay 90 dollars to Harsh",1
+"pay 90 dollars to Harsh Sharma",1
 "transfer 6000 rs to Swati",1
-"deposit 3200 rs to Vinay",1
+"deposit 3200 rs to Vinay Tiwari",1
 "send 440 rs to Rachit",1
 "give 50 rs to Priyansh",1
 "pay 2200 rs to Komal",1
 "transfer 100 rs to Krish",1
-"deposit 125 rs to Shruti",1
+"deposit 125 rs to Shruti Kolte",1
 "send 1750 rs to Dhruv",1
 "give 135 rs to Sonia",1
 "pay 80 rupees to Aditi",1
@@ -69,14 +69,14 @@ sentence,label
 "pay 120 rs to Bhavesh",1
 "send 300 rs to Tanvi",1
 "transfer 130 rs to Simran",1
-"deposit 240 rs to Veer",1
+"deposit 240 rs to Veer Sawarkar",1
 "give 400 rs to Muskan",1
 "send 500 rs to Devansh",1
 "pay 75 rs to Alok",1
 "transfer 160 rs to Smriti",1
 "deposit 600 rs to Keshav",1
 "give 1450 rs to Gunjan",1
-"send 800 rs to Mayank",1
+"send 800 rs to Mayank Wasu",1
 "pay 55 rs to Yash",1
 "transfer 220 rs to Aayushi",1
 "deposit 300 rs to Ragini",1
@@ -85,10 +85,10 @@ sentence,label
 "pay 1250 rs to Kabir",1
 "transfer 500 rs to Usha",1
 "deposit 350 rs to Geeta",1
-"give 175 rs to Alisha",1
+"give 175 rs to Alisha Yadav",1
 "send 275 rs to Hemant",1
 "pay 330 rs to Namrata",1
-"transfer 95 rs to Soham",1
+"transfer 95 rs to Soham Kamde",1
 "deposit 720 rs to Lavanya",1
 "give 280 rs to Aryan",1
 "send 1050 rs to Ritu",1
@@ -100,7 +100,7 @@ sentence,label
 "pay 75 dollars to Shlok",1
 "send girish rupees 100",1
 "transfer 420 rs to Harini",1
-"deposit 910 rs to Siddharth",1
+"deposit 910 rs to Siddharth Malhotra",1
 "give 145 rs to Tanya",1
 "hello how are you",0
 "what is the time now",0
@@ -131,5 +131,5 @@ sentence,label
 "what is 2 plus 2",0
 "how far is the moon",0
 "who won the match yesterday",0
-"make a payment of 500 to Anil",1
+"make a payment of 500 to Anil Band",1
 "send akshat rupees 500",1
