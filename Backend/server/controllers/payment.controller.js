@@ -10,7 +10,7 @@ const fetchContactId = async(name , contact)=>{
     // console.log(contact)
 
     try {
-        const response = await axios.get('https://api.razorpay.com/v1/fund_accounts',{
+        const response = await axios.get('https://api.razorpay.com/v1/fund_accounts?count=100&skip=0',{
             auth: {
                 username: key_id,
                 password: key_secret
@@ -127,7 +127,7 @@ const processPayment = asyncHandler(async(req,res)=>{
     const fetchedPerson = contacts.name
     const fetchedNumber = contacts.contact.length >10? contacts.contact.slice(3,13) : contacts.contact 
     const contactId = await fetchContactId(fetchedPerson,fetchedNumber);
-    // console.log('Contacts', contacts);
+    // console.log('Contact ID', contactId);
 
     if (!contactId) {
         return res.status(404).json({ success: false, message: `Contact ${person} does not exist.` });
