@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Navigator from '../Navigator/Navigator'
 import QuickActions from '../QuickAction/QuickAction'
 import ContactCard from './ContactCard'
+import Agent from "../AIAgent/Agent"
 import axios from 'axios'
 import CreateContact from './CreateContact'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -60,6 +61,7 @@ const ContactsIndex = () => {
                 <div className='flex flex-row'>
                     <div className='w-[50%] ml-[5%]'>
                         <QuickActions />
+                        <Agent/>
                     </div>
 
                     <div className='m-5 mx-[5%] w-[50%]'>

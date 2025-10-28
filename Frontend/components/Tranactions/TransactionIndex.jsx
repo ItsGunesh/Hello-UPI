@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import TransactionCard from './TransactionCard'
 import Navigator from "../Navigator/Navigator.jsx"
 import QuickActions from "../QuickAction/QuickAction.jsx"
+import Agent from '../AIAgent/Agent.jsx'
 import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -203,6 +204,7 @@ const TransactionIndex = () => {
                 <div className='flex flex-row'>
                     <div className='w-[50%] ml-[5%]'>
                     <QuickActions />
+                    <Agent/>
                 </div>
                 <div className='m-5 w-[50%] p-5 text-bold bg-slate-800 text-slate-100 rounded-2xl mx-[5%]'>
                     <div className='flex justify-between items-center px-10 '>

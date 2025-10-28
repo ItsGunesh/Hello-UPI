@@ -3,11 +3,12 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import {ApiResponse} from "../utils/apiResponse.js"
 import axios from "axios"
 
-const fetchContactId = async(name , contact)=>{
+const fetchContactId = async(name , contact , Id)=>{
     const key_id = process.env.RAZORPAY_KEY_ID
     const key_secret = process.env.RAZORPAY_KEY_SECRET
 
     // console.log(contact)
+    // console.log("Name",name)
 
     try {
         const response = await axios.get('https://api.razorpay.com/v1/fund_accounts?count=100&skip=0',{
@@ -26,6 +27,9 @@ const fetchContactId = async(name , contact)=>{
                 return true
             }
             if(c.account_type === 'vpa' && (c.vpa.username === name || c.vpa.username === contact)){
+                return true
+            } // optimise here
+            if(c.contact_id === Id && c.active){
                 return true
             }
             return false
@@ -117,7 +121,7 @@ const processPayment = asyncHandler(async(req,res)=>{
 
     
     const contacts = await checkContactExists(person);
-    // console.log(contacts)
+    // console.log("Matching Contact",contacts)
     if(!contacts){
         return res.status(200).json(
             new ApiResponse(200,"Failed",`No contact named ${person} exists.`)
@@ -125,8 +129,9 @@ const processPayment = asyncHandler(async(req,res)=>{
     }
 
     const fetchedPerson = contacts.name
+    const fetchedId = contacts.id
     const fetchedNumber = contacts.contact.length >10? contacts.contact.slice(3,13) : contacts.contact 
-    const contactId = await fetchContactId(fetchedPerson,fetchedNumber);
+    const contactId = await fetchContactId(fetchedPerson,fetchedNumber,fetchedId);
     // console.log('Contact ID', contactId);
 
     if (!contactId) {

@@ -3,7 +3,7 @@ import React from 'react'
 const Agent = () => {
   return (
     <>
-      <div className='w-full h-full bg-slate-800  rounded-2xl p-5 m-5 box-border'>
+      <div className='w-fit h-fit bg-slate-800  rounded-2xl p-5 m-5 box-border'>
         <div className='my-3'>
             <p className='font-bold text-white text-2xl'>Need Help ? Talk to our Chatbot</p>
         </div>
