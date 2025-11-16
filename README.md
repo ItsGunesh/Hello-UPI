@@ -8,6 +8,13 @@ Using advanced NLP methods any commands that resembles a transaction to a person
 
 Tech Stack used React,Express,Node and FastAPI for website.The face recognition part is implemented using deepface library.The NLP part is implemented using re and spacy libraries.  
 
+FLOW : 
+To use the voice feature , say "Hello UPI" or "Namaskar UPI" for english and hindi respectively. Then once activated , say your transaction command like "Make a payment of 250 to Gunesh" , complete the process by choosing authentication methods from pin verfication and the face recognition .After verfication the money will be deduced from account and is successfully sent to the concerned person.  
+
+To use the QR feature , click on the QR icon just beside the balance . Scan the QR of the person you need to send money to . Complete the authentication process by choosing the appropriate authentication method among pin verification and face recognition .After verfication the money will be deduced from account and is successfully sent to the concerned person.  
+
+Once steps completed , peacefully worry about the money you spent !
+
 
 
 
