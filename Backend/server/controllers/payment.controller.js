@@ -23,10 +23,10 @@ const fetchContactId = async(name , contact , Id)=>{
         // console.log("fund accounts",fundAccounts)
 
         const matchingFundAccount = fundAccounts.find(c=>{
-            if(c.account_type === 'bank_account' && c.bank_account && c.bank_account.name.toLowerCase() === name.toLowerCase()){
+            if(c.account_type === 'bank_account' && c.bank_account && c.bank_account.name.toLowerCase() === name.toLowerCase() && c.active){
                 return true
             }
-            if(c.account_type === 'vpa' && (c.vpa.username === name || c.vpa.username === contact)){
+            if(c.account_type === 'vpa' && (c.vpa.username === name || c.vpa.username === contact) && c.active){
                 return true
             } // optimise here
             if(c.contact_id === Id && c.active){
