@@ -195,6 +195,8 @@ const TransactionIndex = () => {
         XLSX.writeFile(wb, 'transactionData.xlsx');
     }
 
+    console.log("DEBUG",transactions)
+
     return (
         <>
             <div className='bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-500 '>
@@ -254,11 +256,11 @@ const TransactionIndex = () => {
                             {transactions.map((transaction, index) => (
                                 <TransactionCard
                                     key={transaction.id || transaction.transaction_id || index}
-                                    accountID={accountNames[transaction.source?.fund_account_id] || 'Loading...'}
-                                    fundAccountID={transaction.source?.fund_account_id || 'N/A'}
+                                    accountID={accountNames[transaction.source?.fund_account_id] || 'Reversed Transaction'}
+                                    fundAccountID={transaction.source?.fund_account_id || 'Reversed Transaction'}
                                     amount={formatAmount(transaction.amount)}
                                     createdAt={formatDate(transaction.created_at || transaction.createdAt)}
-                                    status={transaction.source?.status || 'Unknown'}
+                                    status={transaction.source?.status || 'Reversal'}
                                     statusColor={getStatusColor(transaction.source?.status)}
                                     transaction={transaction}
                                 />

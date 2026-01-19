@@ -25,4 +25,17 @@ Transactions
 <img width="1897" height="843" alt="image" src="https://github.com/user-attachments/assets/1d593450-9971-48e3-89e7-1b946ef310d7" />
 Contacts
 
+Steps to Start the project
 
+cd Frontend
+cd src
+npm run dev
+
+cd Backend
+cd server
+node index.js
+
+./venv/Scripts/activate
+cd Backend
+cd pythonServer
+uvicorn app:app --reload
